@@ -5,4 +5,7 @@ une série de combats de monstres générés aléatoirement
 amusant
 """
 
-import random
+import random()
+
+player_hp = 20
+
