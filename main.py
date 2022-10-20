@@ -9,6 +9,7 @@ import random
 from color import Colors
 from time import sleep
 
+
 def fight():
     niveau_hp = random.randint(15, 25)
 
@@ -19,17 +20,14 @@ def menu():
 
     while boucle_menu:
         print(Colors.CYAN + Colors.BOLD + "Combat de Monstres\n\n\n")
-        sleep(1)
         print(Colors.LIGHT_GREEN + Colors.ITALIC + "Pour commencer, écrivez 'start'")
-        sleep(0.5)
         print(Colors.YELLOW + Colors.ITALIC + "\n\nPour lire les règles, écrivez 'rules'\n\n")
-        sleep(0.5)
         print(Colors.LIGHT_RED + Colors.ITALIC + "Pour quitter, écrivez 'leave'\n")
-        sleep(0.5)
         game_menu = input(Colors.CYAN + Colors.BOLD + "--->")
 
         if game_menu == 'rules':
-            print("Please read later")
+            print("BIENVENUE DANS LA PYRAMIDE M-OSH\nVous êtes un explorateur à la ''Indiana Jones'' cherchant "
+                  "un trésor\ndissimulé dans la pyramide.\nPAR CONTRE, la place est infestée de momies. Oups!")
             boucle_menu = True
         elif game_menu == 'leave':
             print("Au revoir!")
