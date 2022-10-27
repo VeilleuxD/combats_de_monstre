@@ -9,27 +9,45 @@ import random
 from color import Colors
 from time import sleep
 
+def turn(data_game):
+    data_game['numero_adversaire'] += 1
+    # compteur_boss += 1 (pour une autre étape du projet)
+    choix_action = input(f"Oh non! une momie avec une force de {data_game['force']}, vous avez {data_game['niveau_hp']} HP!\n"
+                         f"que faites-vous?\npour fuir, écrivez 'fuir'\npour tenter votre chance et rouler votre de"
+                         f", écrivez 'de'\npour abandoner, écrivez 'deez'\n-->")
+    if choix_action == "fuir":
+        print("vous avez fui lol, 1 hp en moins pour avoir fui")
+        data_game['niveau_hp'] -= 1
+        data_game['force'] = random.randint(1, 5)
+        return data_game
+    elif choix_action == "deez":
+        data_game['abandon'] = True
+        print(f"Vous avez abandonné :(")
+        return data_game
+    elif choix_action == "de":
+        print("Vous frappez la momie avec votre sabre...")
+        dice_roll = random.randint(1, 6)
+        if dice_roll > data_game['force']:
+            print(f"La momie tombe raide mort! \nVous gagnez {data_game['force']}HP!\n")
+            data_game['niveau_hp'] += data_game['force']
+            data_game['victoires'] += 1
+        elif dice_roll <= data_game['force']:
+            print(f"La momie ne réagit pas. Elle vous attaque\nVous perdez {data_game['force']}HP!\n")
+            data_game['niveau_hp'] -= data_game['force']
+            data_game['defaites'] += 1
 
-def fight():
-    numero_adversaire = 0
-    compteur_boss = 0
-    victoires = 0
-    defaites = 0
-    niveau_hp = random.randint(15, 25)
-    while niveau_hp > 0:
-        force_adversaire = random.randint(1, 5)
-        numero_adversaire += 1
-        compteur_boss += 1
-        choix_action = input(f"Oh non! une momie avec une force de {force_adversaire}, vous avez {niveau_hp} HP!\n"
-                             f"que faites-vous?\npour fuir, écrivez 'fuir'\npour tenter votre chance et rouler votre dé,"
-                             f"écrivez 'dé'\npour abandoner, écrivez 'deez'\n-->")
-        if choix_action == "fuir":
-            print("vous avez fui lol")
-            niveau_hp -= 1
-        elif choix_action == "deez":
-            niveau_hp = 0
-            print(f"Vous avez abandonné :(")
-    print(f"Vos victoire: {victoires}\nVos défaites: {defaites}\nCombats totaux: {numero_adversaire}\n"
+        data_game['force'] = random.randint(1, 5)
+        return data_game
+    else:
+        return turn(data_game)
+
+
+def logic():
+    data_game = {'numero_adversaire': 0, 'victoires':  0, 'defaites': 0, 'niveau_hp': 20, 'force': random.randint(1, 5), 'abandon': False}
+    while data_game['niveau_hp'] > 0 and not data_game['abandon']:
+        data_game = turn(data_game)
+
+    print(f"Game Over!\nVos victoires: {data_game['victoires']}\nVos défaites: {data_game['defaites']}\nCombats totaux: {data_game['numero_adversaire']}\n"
           f"Votre swag: {random.randint(1, 10)}/10")
 
 
@@ -63,7 +81,7 @@ def menu():
             boucle_menu = False
         elif game_menu == 'start':
             print("Vous rentrez dans la pyramide de M-OSH...\n\n")
-            fight()
+            logic()
             boucle_menu = True
         else:
             boucle_menu = True
